@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @since 2021-11-03
  */
 @Data
+@ToString
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_order")
 public class Order implements Serializable {

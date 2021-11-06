@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zhoubin
@@ -20,13 +20,15 @@ public interface IUserService extends IService<User> {
 
 
     RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
-    
+
     /**
-    * @description: 根据cookie获取用户
-    * @param: userTicket 
-    * @return: com.xyh.seckill.pojo.User
-    * @author xyh
-    * @date: 2021/11/3 13:36
-    */ 
+     * @description: 根据cookie获取用户
+     * @param: userTicket
+     * @return: com.xyh.seckill.pojo.User
+     * @author xyh
+     * @date: 2021/11/3 13:36
+     */
     User getUserByCookie(String userTicket, HttpServletRequest request, HttpServletResponse response);
+
+    RespBean updatePassword(String userTicket, String password, HttpServletRequest request, HttpServletResponse response);
 }

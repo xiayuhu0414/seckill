@@ -1,4 +1,23 @@
 spring:
+  #静态资源处理
+  resources:
+    # 启动默认静态资源处理，默认启用
+    add-mappings: true
+    cache:
+      cachecontrol:
+        #缓存相应时间，单位秒
+        max-age: 3600
+    chain:
+      #资源链启动缓存，默认启动
+      cache: true
+      #启动资源链，默认禁用
+      enabled: true
+      #启用压缩资源（gzip,brotli）解析，默认禁用
+      compressed: true
+      #启用h5应用缓存，默认禁用
+      html-application-cache: true
+    #静态资源目录
+    static-locations: classpth:/static/
   # thymeleaf配置
   thymeleaf:
     # 关闭缓存
@@ -27,21 +46,9 @@ spring:
       connection-test-query: SELECT 1
   # redis配置
   redis:
-    #服务器地址
-    #host:
-    # 端口
-    #port: 6379
-    # 数据库
-    #database: 0
-    # 超时时间
     timeout: 10000ms
     cluster:
       nodes: 116.62.245.235:6379,116.62.245.235:6380,47.97.60.128:6379,47.97.60.128:6380,120.25.1.160:6379,120.25.1.160:6380
-#    jedis:
-#      pool:
-#        max-active: 10
-#        max-idle: 6
-#        min-idle: 2
     lettuce:
       pool:
         # 最大连接数 默认8
@@ -55,14 +62,12 @@ spring:
     password: 253261xyh@..
     database: 0
 
-
 # Mybatis-plus配置
 mybatis-plus:
   # 配置Mapper.xml映射文件
   mapper-locations: classpath*:/mapper/*Mapper.xml
   # 配置Mybatis数据返回类型别名（默认别名就是类名）
   type-aliases-package: com.xyh.seckill.pojo
-
 
 #Mybatis SQL打印（方法接口所在的包，不是Mapper.xml所在包）
 logging:

@@ -1,5 +1,6 @@
 package com.xyh.seckill;
 
+import com.xyh.seckill.pojo.SeckillOrder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,9 +14,9 @@ class SeckillApplicationTests {
     @Test
     void contextLoads() {
 
-        redisTemplate.opsForValue().set("11", "2st");
-        String d =(String) redisTemplate.opsForValue().get("11");
-        System.out.println(d);
+      //  redisTemplate.opsForValue().set("111", "2st");
+        String seckillOrder = (String)redisTemplate.opsForValue().get("order:13000000001:1");
+        System.out.println(seckillOrder);
 
     }
 
