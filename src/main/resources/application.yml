@@ -1,0 +1,72 @@
+spring:
+  # thymeleaf配置
+  thymeleaf:
+    # 关闭缓存
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://116.62.245.235:3306/seckill?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: 253261
+    hikari:
+      #连接池名
+      pool-name: DateHikariCP
+      #最小空闲连接数
+      minimum-idle: 5
+      # 空闲连接存活最大时间，默认600000（10分钟）
+      idle-timeout: 180000
+      # 最大连接数,默认10
+      maximum-pool-size: 10
+      # 从连接池返回的连接自动 提交
+      auto-commit: true
+      # 连接最大存活时间，0表示永久存活，默认180000（30分钟）
+      max-lifetime: 180000
+      # 连接超时时间，默认30000（30秒）
+      connection-timeout: 30000
+      # 测试连接是否可用的查询语句
+      connection-test-query: SELECT 1
+  # redis配置
+  redis:
+    #服务器地址
+    #host:
+    # 端口
+    #port: 6379
+    # 数据库
+    #database: 0
+    # 超时时间
+    timeout: 10000ms
+    cluster:
+      nodes: 116.62.245.235:6379,116.62.245.235:6380,47.97.60.128:6379,47.97.60.128:6380,120.25.1.160:6379,120.25.1.160:6380
+#    jedis:
+#      pool:
+#        max-active: 10
+#        max-idle: 6
+#        min-idle: 2
+    lettuce:
+      pool:
+        # 最大连接数 默认8
+        max-active: 8
+        # 最大连接阻塞等待时间 默认-1
+        max-wait: 10000ms
+        # 最大空闲连接 默认8
+        max-idle: 200
+        # 最小空闲连接 默认0
+        min-idle: 5
+    password: 253261xyh@..
+    database: 0
+
+
+# Mybatis-plus配置
+mybatis-plus:
+  # 配置Mapper.xml映射文件
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  # 配置Mybatis数据返回类型别名（默认别名就是类名）
+  type-aliases-package: com.xyh.seckill.pojo
+
+
+#Mybatis SQL打印（方法接口所在的包，不是Mapper.xml所在包）
+logging:
+  level:
+    com.xyh.seckill.mapper: debug
+
+
