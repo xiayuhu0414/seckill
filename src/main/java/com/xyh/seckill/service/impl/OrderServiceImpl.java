@@ -18,8 +18,10 @@ import com.xyh.seckill.utils.JsonUtil;
 import com.xyh.seckill.vo.GoodsVo;
 import com.xyh.seckill.vo.OrderDetailVo;
 import com.xyh.seckill.vo.RespBeanEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,7 @@ import java.util.Date;
  * @since 2021-11-03
  */
 @Service
+@Slf4j
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
 
     @Autowired
@@ -58,6 +61,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Transactional
     @Override
     public Order secKill(User user, GoodsVo goods) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
         //秒杀商品表减库存
         SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>()
                 .eq("goods_id", goods.getId()));
@@ -66,7 +70,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 UpdateWrapper<SeckillGoods>().setSql("stock_count="+"stock_count-1")
                 .eq("goods_id", goods.getId()).gt("stock_count",0));
          // seckillGoodsService.updateById(seckillGoods);
-        if (!result) {
+        if (seckillGoods.getStockCount()<1) {
+            //判断是否还有库存
+            valueOperations.set("isStockEmpty:"+goods.getId(),"0");
             return null;
         }
         seckillGoodsService.updateById(seckillGoods);
@@ -102,14 +108,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      */
     @Override
     public OrderDetailVo detail(Long orderId) {
+        log.info("订单服务层");
         if (orderId == null) {
             throw new GlobalException(RespBeanEnum.ORDER_NOT_EXIST);
         }
+        log.info("订单id"+orderId);
         Order order = orderMapper.selectById(orderId);
+        log.info("订单查询"+order);
         GoodsVo goodsVo = goodsService.findGoodVoByGoodsId(order.getGoodsId());
+        log.info("vo"+"=========================="+goodsVo);
         OrderDetailVo detail = new OrderDetailVo();
         detail.setOrder(order);
         detail.setGoodsVo(goodsVo);
+        log.info("订单详情"+detail);
         return detail;
     }
 }

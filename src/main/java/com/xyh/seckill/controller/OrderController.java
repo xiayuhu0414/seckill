@@ -6,10 +6,12 @@ import com.xyh.seckill.service.IOrderService;
 import com.xyh.seckill.vo.OrderDetailVo;
 import com.xyh.seckill.vo.RespBean;
 import com.xyh.seckill.vo.RespBeanEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.rmi.runtime.Log;
 
 /**
  * <p>
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/order")
+@Slf4j
 public class OrderController {
     @Autowired
     private IOrderService orderService;
@@ -39,8 +42,10 @@ public class OrderController {
         if (user==null){
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
+        log.info("我传入的是"+orderId+"------------------------------------------------------");
         OrderDetailVo detail=orderService.detail(orderId);
 
+        log.info("返回订单信息"+detail);
         return RespBean.success(detail);
 
     }
