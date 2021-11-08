@@ -53,48 +53,5 @@ public class MQReceiver {
         orderService.secKill(user, goodsVo);
     }
 
-    /*@RabbitListener(queues = "queue")
-    public void receive(Object msg) {
-        log.info("接收消息" + msg);
-    }
 
-    @RabbitListener(queues = "queue_fanout01")
-    public void receive01(Object msg){
-        log.info("Fanout模式 QUEUE01接收消息"+msg);
-    }
-    @RabbitListener(queues = "queue_fanout02")
-    public void receive02(Object msg){
-        log.info("Fanout模式 QUEUE02接收消息"+msg);
-    }
-
-    @RabbitListener(queues = "queue_direct01")
-    public void receive03(Object msg){
-        log.info("Direct模式 QUEUE01接收消息"+msg);
-    }
-    @RabbitListener(queues = "queue_direct02")
-    public void receive04(Object msg){
-        log.info("Direct模式 QUEUE02接收消息"+msg);
-    }
-    @RabbitListener(queues = "queue_topic01")
-    public void receive05(Object msg){
-        log.info("Topic模式 QUEUE01接收消息"+msg);
-    }
-
-    @RabbitListener(queues = "queue_topic02")
-    public void receive06(Object msg){
-        log.info("Topic模式 QUEUE02接收消息"+msg);
-    }
-
-
-    @RabbitListener(queues = "queue_header01")
-    public void receive07(Message msg){
-        log.info("Header模式 QUEUE01接收Message对象"+msg);
-        log.info("QUEUE01接收消息："+new String(msg.getBody()));
-    }
-
-    @RabbitListener(queues = "queue_header02")
-    public void receive08(Message msg){
-        log.info("Header模式 QUEUE02接收Message对象"+msg);
-        log.info("QUEUE02接收消息："+new String(msg.getBody()));
-    }*/
 }

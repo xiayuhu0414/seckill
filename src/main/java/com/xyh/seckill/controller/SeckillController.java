@@ -106,32 +106,7 @@ public class SeckillController implements InitializingBean {
         SeckillMessage seckillMessage = new SeckillMessage(user, goodsId);
         mqSender.sendSeckillMessage(JsonUtil.object2JsonStr(seckillMessage));
         return RespBean.success(0);
-       /* GoodsVo goods = goodsService.findGoodVoByGoodsId(goodsId);
-        log.info("商品信息"+goods.toString());
-        //判断库存
-        if (goods.getStockCount() < 1) {
-            log.info("库存小于1");
-            return RespBean.error(RespBeanEnum.EMPTY_STOCK);
-        }
-        log.info("完成库存判断");
-        //判断是否重复抢购
-       *//* SeckillOrder seckillOrder = seckillOrderService.getOne(new
-                QueryWrapper<SeckillOrder>().eq("user_id",
-                user.getId()).eq(
-                "goods_id",
-                goodsId));*//*
 
-        String seckillOrder = (String) redisTemplate.opsForValue().get("order:"+user.getId()+":"+goods.getId());
-       // log.info("redis查询用户订单信息"+seckillOrder.toString());
-        if (!StringUtils.isEmpty(seckillOrder)) {
-            log.info("订单已存在"+seckillOrder);
-            return RespBean.error(RespBeanEnum.REPEATE_EROR);
-        }
-        Order order = orderService.secKill(user, goods);
-        if (null!=order){
-            return RespBean.success(order);
-        }
-        return RespBean.success(order);*/
     }
 
 
@@ -143,17 +118,7 @@ public class SeckillController implements InitializingBean {
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        //限制访问次数，5秒内访问5次
-        /*String uri = request.getRequestURI();
-        captcha="0";
-        Integer count = (Integer) valueOperations.get(uri+":"+user.getId());
-        if (count==null){
-            valueOperations.set(uri+":"+user.getId(),1,5,TimeUnit.SECONDS);
-        }else if (count<5){
-            valueOperations.increment(uri+":"+user.getId());
-        }else {
-            return RespBean.error(RespBeanEnum.ACCESS_LIMIT_REAHCED);
-        }*/
+
         boolean check = orderService.checkCaptcha(user, goodsId, captcha);
         if (!check){
             return RespBean.error(RespBeanEnum.ERROR_CAPTCHA);
@@ -162,32 +127,7 @@ public class SeckillController implements InitializingBean {
         return RespBean.success(str);
     }
 
-    @RequestMapping("/doSeckill2")
-    public String doSecKill2(Model model, User user, Long goodsId) {
-        if (user == null) {
-            return "login";
-        }
-        model.addAttribute("user", user);
-        GoodsVo goods = goodsService.findGoodVoByGoodsId(goodsId);
-        //判断库存
-        if (goods.getStockCount() < 1) {
-            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return "secKillFail";
-        }
 
-        //判断是否重复抢购
-        SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>()
-                .eq("user_id", user.getId())
-                .eq("goods_id", goodsId));
-        if (seckillOrder != null) {
-            model.addAttribute("errmsg", RespBeanEnum.REPEATE_EROR.getMessage());
-            return "secKillFail";
-        }
-        Order order = orderService.secKill(user, goods);
-        model.addAttribute("order", order);
-        model.addAttribute("goods", goods);
-        return "orderDetail";
-    }
 
     /**
      * @description: 初始化时执行的方法
