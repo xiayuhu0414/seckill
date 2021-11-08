@@ -187,8 +187,6 @@ public class SeckillController implements InitializingBean {
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
         return "orderDetail";
-
-
     }
 
     /**
