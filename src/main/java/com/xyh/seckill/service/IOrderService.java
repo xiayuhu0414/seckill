@@ -34,4 +34,36 @@ goods
     * @date: 2021/11/6 15:00
     */ 
     OrderDetailVo detail(Long orderId);
+
+
+/**
+* @description: 获取秒杀地址
+ * @param user:
+* @param goodsId:
+* @return: java.lang.String
+* @author xyh
+* @date: 2021/11/8 13:45
+*/
+    String createPath(User user, Long goodsId);
+
+    /**
+    * @description: 校验秒杀地址
+     * @param user:
+* @param goodsId:
+    * @return: boolean
+    * @author xyh
+    * @date: 2021/11/8 13:55
+    */
+    boolean checkPath(User user, Long goodsId,String path);
+
+    /**
+    * @description: 校验验证码
+     * @param user:
+* @param goodsId:
+* @param captcha:
+    * @return: boolean
+    * @author xyh
+    * @date: 2021/11/8 15:09
+    */
+    boolean checkCaptcha(User user, Long goodsId, String captcha);
 }
